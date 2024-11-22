@@ -1,0 +1,64 @@
+Multi-Layered Architecture:
+    Presentation Layer
+    The frontend is the user interface of the application, typically implemented with React
+    - Handle user interaction and input
+    - Sends requests to the backend via HTTP (using axios or fetch)
+    - Displays data received from the backend
+    - Manages the applications state and UI components
+
+    Controller Layer
+    The controller layer resides on the backend and handles incoming HTTP requests from the frontend. It acts as an
+    entry point for the backend.
+    - Maps HTTP endpoints to methods using annotations like @GetMapping, @PostMapping, etc.
+    - Validates user inputs and handles request parameters
+    - Delegates the request to the service layer for processing
+    - Prepares and sends responses back to the client (Usually in JSON format for APIs)
+
+    Service Layer (Business Logic Layer)
+    The service layer is the core of the backend. It contains all the business logic and acts as an intermediary
+    between the controller and the data/repository layers.
+    - Implements the business rules and core logic (e.g., formatting, processing data, applying algorithms)
+    - Coordinates between multiple data sources, APIs, or repositories
+    - Ensures data consistency
+
+    Data Access Layer (Repository Layer)
+    The repository layer abstracts access to data. It interacts directly with the database or external data
+    sources (like APIs or files)
+    - Manages Create, Read, Update, Delete (CRUD) operations
+    - Encapsulates database queries, whether using SQL, JPA, or other methods
+    - Serves as a bridge between the service layer and the data source
+
+    Data Layer (Database or External API)
+    This layer contains the actual data storage or external data sources that the application interacts with.
+    - Stores data persistently (in a database like MySQL, PostgresSQL, or MongoDB)
+    - Provides external services for retrieving data (e.g., stock information from twelvedata)
+
+    Security Layer
+    A security layer ensures authentication (who you are) and authorization (what you can access).
+    - Restricts access to sensitive endpoints
+    - Ensures that users or systems are authenticated and authorized
+    - Use @PreAuthorize annotations to restrict access
+
+    Utility Layer
+    This layer contains reusable components, utilities, or helper classes
+    - Implements general-purpose methods (e.g., string manipulation, validation, or logging)
+    - Contains configuration classes for dependencies or external services (like API clients)
+
+How the Layers Interact
+    1. Frontend (React) sends an HTTP request to the backend.
+    2. Controller receives the request, validates it, and passes it to the service.
+    3. Service processes the request using business logic and fetches data from the repository or an external API.
+    4. Repository retrieves data from the database or external API (e.g., Twelve Data).
+    5. The Service processes the data and returns it to the controller.
+    6. The Controller sends the response back to the frontend.
+This separation ensures each layer has a distinct purpose, promoting modularity and scalability.
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+CORS (Cross-Origin Resource Sharing)
+    This is a security feature implemented by browsers to prevent web pages from making requests to a domain different
+from the one that serves the web page. It restricts web applications from accessing resources (like APIs) on other
+domains unless the target server explicitly allows it.
+    CORS is controlled by setting special HTTP headers (Access-Control-Allow-Origin, etc.) on the server that specify
+which domains are allowed to access its resources.

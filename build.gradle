@@ -25,23 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web' // Add this
 }
 
-node {
-    version = '20.12.2'  // Use the version you have installed
-    npmVersion = '10.9.0'  // Same as your installed npm version
-    download = false  // Don't download a new Node.js/npm if they are already installed
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
-tasks.register('buildFrontend', Exec) {
-    workingDir file('frontend')
-    commandLine 'npm', 'run', 'build'
-}
 
-tasks.register('copyFrontEnd', Copy) {
-    from("frontend/build")
-    into("src/main/resources/static")
-}
-copyFrontEnd.dependsOn buildFrontend
-build.dependsOn copyFrontEnd
