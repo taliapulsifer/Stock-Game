@@ -75,7 +75,14 @@ public class StockService {
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 String body = response.getBody();
-                return objectMapper.readValue(body, StockHistory.class);
+                System.out.println("Response body: " + body);
+                try {
+                    return objectMapper.readValue(body, StockHistory.class);
+                } catch (Exception ex) {
+                    System.err.println("Deserialization error: " + ex.getMessage());
+                    ex.printStackTrace();
+                    throw new RuntimeException("Error during deserialization");
+                }
             } else {
                 throw new RuntimeException("Failed to fetch stock info. Status code: " + response.getStatusCode());
             }

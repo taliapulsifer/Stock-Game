@@ -30,14 +30,25 @@ public class StockController {
     }
 
     @GetMapping("/history/{symbol}")
-    public ResponseEntity<List<StockHistory.StockHistoryData.StockDataPoint>> getStockHistory(@PathVariable String symbol) {
-        try {
+    public ResponseEntity<List<StockHistory.Values.StockDataPoint>> getStockHistory(@PathVariable String symbol) {
+        System.out.println("Fetching stock history for symbol: " + symbol);
+        try{
             StockHistory stockHistory = stockService.getStockHistory(symbol);
-            StockHistory.StockHistoryData historyData = stockHistory.getData().get(symbol);
 
-            if (historyData != null) {
-                return ResponseEntity.ok(historyData.getValues());
+            //Debugging
+            if (stockHistory.getMeta() == null) {
+                System.out.println("Meta information is missing for symbol: " + symbol);
+            }
+
+            if (stockHistory.getValues() == null || stockHistory.getValues().isEmpty()) {
+                System.out.println("No historical data (values) available for symbol: " + symbol);
+            }
+            //End debugging logs
+
+            if (stockHistory != null && stockHistory.getMeta()!=null) {
+                return ResponseEntity.ok(stockHistory.getValues());
             } else {
+                System.out.println("Stock history is null for symbol: " + symbol);
                 return ResponseEntity.status(404).body(null);
             }
         } catch (Exception e) {

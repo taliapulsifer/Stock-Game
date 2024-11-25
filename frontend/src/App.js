@@ -56,6 +56,10 @@ function App() {
                 />
                 <button onClick={fetchStockData}>Get Stock Data</button>
                 {stockData && <pre>{JSON.stringify(stockData, null, 2)}</pre>}
+                <button onClick={fetchStockHistory}>Get Stock History</button>
+                {stockHistory.length > 0 && (
+                    <pre>{JSON.stringify(stockHistory, null, 2)}</pre>
+                )}
             </div>
         </div>
     );
